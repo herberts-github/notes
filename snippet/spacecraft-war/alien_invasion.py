@@ -156,6 +156,13 @@ class AlienInvasion:
         self._check_fleet_edges()
         self.aliens.update()
 
+        # 检测外星人和飞船之间的碰撞
+        # sprite.spritecollideany：接受两个实参（sprite, group）
+        # 检查编组是否有成员与 sprite 发生碰撞，并在找到与 sprite 发生碰撞的成员后停止遍历编组
+        # 没有碰撞返回 None，if代码不执行
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print('船撞了!!!')
+
     def _update_screen(self):
         """更新屏幕上的图像，并切换新屏幕"""
         # 每次循环时都重绘屏幕
