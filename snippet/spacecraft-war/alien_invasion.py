@@ -85,8 +85,11 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
-        # 检查是否子弹击中外星人
-        # 如果是，就删除相应的子弹和外星人
+        self._check_bullet_alien_collisions()
+
+    def _check_bullet_alien_collisions(self):
+        """响应子弹和外星人碰撞"""
+        # 删除发生碰撞的子弹和外星人
         # sprite.groupcollide：将一个编组中每个元素的 rect 同另个编组中每个元素的 rect 比较
         # 返回字典添加键值对，实参 True，让pygame删除发生碰撞的子弹和外星人
         collisions = pygame.sprite.groupcollide(
