@@ -33,6 +33,13 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self.bullets.update()
+
+            # 删除消失的子弹
+            for bullet in self.bullets.copy():  # 遍历编组副本，检查每颗子弹，是否从屏幕顶端消失将其删除
+                if bullet.rect.bottom <= 0:
+                    self.bullets.remove(bullet)
+            print(len(self.bullets))
+
             self._update_screen()
 
     def _check_events(self):
