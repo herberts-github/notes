@@ -1,8 +1,10 @@
 import sys
+from time import sleep
 
 import pygame
 
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -24,6 +26,9 @@ class AlienInvasion:
         # self.settings.screen_width = self.screen.get_rect().width
         # self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption('外星人入侵')
+
+        # 创建用于存储游戏统计信息的实例
+        self.stats = GameStats(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()  # 存储编组，存储子弹，类似列表
@@ -148,6 +153,23 @@ class AlienInvasion:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
+    def _ship_hit(self):
+        """响应飞船被外星人撞到的响应"""
+
+        # 将 ships_left 减 1
+        self.stats.ships_left -= 1
+
+        # 清空余下外星人和子弹
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # 创建新的外星人群，并将飞船放到屏幕底端中央
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # 暂停
+        sleep(0.5)
+
     def _update_aliens(self):
         """
         检查是否有外星人位于屏幕边缘，
@@ -161,7 +183,7 @@ class AlienInvasion:
         # 检查编组是否有成员与 sprite 发生碰撞，并在找到与 sprite 发生碰撞的成员后停止遍历编组
         # 没有碰撞返回 None，if代码不执行
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            print('船撞了!!!')
+            self._ship_hit()
 
     def _update_screen(self):
         """更新屏幕上的图像，并切换新屏幕"""
