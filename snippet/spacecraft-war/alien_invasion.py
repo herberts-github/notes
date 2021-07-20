@@ -66,24 +66,28 @@ class AlienInvasion:
                 mouse_pos = pygame.mouse.get_pos()  # 返回元组，其中包含玩家单击时鼠标的 x 和 y 坐标
                 self._check_play_button(mouse_pos)  # 将元组传递
 
+    def _start_game(self):
+        """开始游戏"""
+        # 重置游戏统计信息
+        self.stats.reset_stats()
+        self.stats.game_active = True
+
+        # 清空余下的外星人和子弹
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # 创建新的外星人并让飞船居中
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # 隐藏鼠标光标
+        pygame.mouse.set_visible(False)
+
     def _check_play_button(self, mouse_pos):
         """在玩家单击 Play 按钮时开始新游戏"""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:  # 判断是否单击 play 同时处于非活动状态下才重新开始
-            # 重置游戏统计信息
-            self.stats.reset_stats()
-            self.stats.game_active = True
-
-            # 清空余下的外星人和子弹
-            self.aliens.empty()
-            self.bullets.empty()
-
-            # 创建新的外星人并让飞船居中
-            self._create_fleet()
-            self.ship.center_ship()
-
-            # 隐藏鼠标光标
-            pygame.mouse.set_visible(False)
+            self._start_game()
 
     def _check_keydown_events(self, event):
         """响应按键"""
@@ -95,6 +99,9 @@ class AlienInvasion:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif event.key == pygame.K_p:
+            if not self.stats.game_active:
+                self._start_game()
 
     def _check_keyup_events(self, event):
         """响应松开"""
