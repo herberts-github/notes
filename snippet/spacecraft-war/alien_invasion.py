@@ -33,13 +33,7 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self.bullets.update()
-
-            # 删除消失的子弹
-            for bullet in self.bullets.copy():  # 遍历编组副本，检查每颗子弹，是否从屏幕顶端消失将其删除
-                if bullet.rect.bottom <= 0:
-                    self.bullets.remove(bullet)
-            print(len(self.bullets))
-
+            self._update_bullets()
             self._update_screen()
 
     def _check_events(self):
@@ -76,6 +70,16 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:  # 检查长度，限制子弹
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+
+    def _update_bullets(self):
+        """更新子弹位置并删除消失的子弹"""
+        # 更新子弹的位置
+        self.bullets.update()
+
+        # 删除消失的子弹
+        for bullet in self.bullets.copy():  # 遍历编组副本，检查每颗子弹，是否从屏幕顶端消失将其删除
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
 
     def _update_screen(self):
         """更新屏幕上的图像，并切换新屏幕"""
