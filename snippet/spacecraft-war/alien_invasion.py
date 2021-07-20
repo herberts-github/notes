@@ -82,6 +82,9 @@ class AlienInvasion:
             self._create_fleet()
             self.ship.center_ship()
 
+            # 隐藏鼠标光标
+            pygame.mouse.set_visible(False)
+
     def _check_keydown_events(self, event):
         """响应按键"""
         if event.key == pygame.K_RIGHT:
@@ -198,6 +201,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _update_aliens(self):
         """
