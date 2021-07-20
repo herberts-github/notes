@@ -33,9 +33,24 @@ class AlienInvasion:
 
     def _create_fleet(self):
         """创建外星人群"""
-        # 创建外星人
+        # 创建外星人并计算一行可容纳多少外星人
+        # 外星人间距为外星人宽度
         alien = Alien(self)
-        self.aliens.add(alien)
+        alien_width = alien.rect.width
+        # 确定一行容纳数量
+        # 可用于放置的水平空间 = 屏幕宽度 - 外星人宽度 * 2
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        # 显示外星人所需的水平空间为 外星人宽度 * 2
+        # 一行数量 = 可用空间 // 外星人所需的水平空间
+        number_aliens_x = available_space_x // (2 * alien_width)
+
+        # 创建第一行外星人
+        for alien_number in range(number_aliens_x):
+            # 创建一个并将其加入当前行
+            alien = Alien(self)
+            alien.x = alien_width + 2 * alien_width * alien_number
+            alien.rect.x = alien.x
+            self.aliens.add(alien)
 
     def run_game(self):
         """开始游戏的主循环"""
