@@ -38,12 +38,15 @@ class AlienInvasion:
 
     def run_game(self):
         """开始游戏的主循环"""
-        while True:
-            self._check_events()
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
-            self._update_screen()
+        while True:  # 确定游戏部分是否在活动状态时运行
+            self._check_events()  # 处于非活动状态，判断 Q 键和单击关闭按钮
+
+            if self.stats.game_active:  # 只允许活动状态才需要调用
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()
+
+            self._update_screen()  # 处于非活动状态，，等待玩家是否选择开始新游戏时修改屏幕
 
     def _check_events(self):
         """响应按键和鼠标事件"""
