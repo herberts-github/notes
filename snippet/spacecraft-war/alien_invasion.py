@@ -31,48 +31,13 @@ class AlienInvasion:
 
         self._create_fleet()
 
-    def _create_fleet(self):
-        """创建外星人群"""
-        # 创建外星人并计算一行可容纳多少外星人
-        # 外星人间距为外星人宽度
-        alien = Alien(self)
-        alien_width, alien_height = alien.rect.size
-        # 确定一行容纳数量
-        # 可用于放置的水平空间 = 屏幕宽度 - 外星人宽度 * 2
-        available_space_x = self.settings.screen_width - (2 * alien_width)
-        # 显示外星人所需的水平空间为 外星人宽度 * 2
-        # 一行数量 = 可用空间 // 外星人所需的水平空间
-        number_aliens_x = available_space_x // (2 * alien_width)
-
-        # 计算屏幕可容纳多少行外星人
-        ship_height = self.ship.rect.height
-        # 可用垂直空间 = 屏幕宽度 - 第一行的上边距（高度）、飞船高度、外星人群最初与飞船之间的距离（外星人高度两倍）
-        available_space_y = (self.settings.screen_height -
-                             (3 * alien_height) - ship_height)
-        # 可容纳行数 = 可用垂直空间 // 外星人高度的两倍
-        number_rows = available_space_y // (2 * alien_height)
-
-        # 创建外星人群
-        for row_number in range(number_rows):
-            for alien_number in range(number_aliens_x):
-                self._create_alien(alien_number, row_number)
-
-    def _create_alien(self, alien_number, row_number):
-        """创建外星人，并将其放在当前行"""
-        alien = Alien(self)
-        alien_width, alien_height = alien.rect.size
-        alien.x = alien_width + 2 * alien_width * alien_number
-        alien.rect.x = alien.x
-        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
-        self.aliens.add(alien)
-
     def run_game(self):
         """开始游戏的主循环"""
         while True:
             self._check_events()
             self.ship.update()
-            self.bullets.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
 
     def _check_events(self):
@@ -119,6 +84,62 @@ class AlienInvasion:
         for bullet in self.bullets.copy():  # 遍历编组副本，检查每颗子弹，是否从屏幕顶端消失将其删除
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+    def _create_fleet(self):
+        """创建外星人群"""
+        # 创建外星人并计算一行可容纳多少外星人
+        # 外星人间距为外星人宽度
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        # 确定一行容纳数量
+        # 可用于放置的水平空间 = 屏幕宽度 - 外星人宽度 * 2
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        # 显示外星人所需的水平空间为 外星人宽度 * 2
+        # 一行数量 = 可用空间 // 外星人所需的水平空间
+        number_aliens_x = available_space_x // (2 * alien_width)
+
+        # 计算屏幕可容纳多少行外星人
+        ship_height = self.ship.rect.height
+        # 可用垂直空间 = 屏幕宽度 - 第一行的上边距（高度）、飞船高度、外星人群最初与飞船之间的距离（外星人高度两倍）
+        available_space_y = (self.settings.screen_height -
+                             (3 * alien_height) - ship_height)
+        # 可容纳行数 = 可用垂直空间 // 外星人高度的两倍
+        number_rows = available_space_y // (2 * alien_height)
+
+        # 创建外星人群
+        for row_number in range(number_rows):
+            for alien_number in range(number_aliens_x):
+                self._create_alien(alien_number, row_number)
+
+    def _create_alien(self, alien_number, row_number):
+        """创建外星人，并将其放在当前行"""
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        self.aliens.add(alien)
+
+    def _check_fleet_edges(self):
+        """有外星人到达边缘时采取相应措施"""
+        for alien in self.aliens.sprites():  # 遍历并调用方法，当返回True表明相应外星人位于屏幕边缘
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """将整群下移并改变方向"""
+        for alien in self.aliens.sprites():  # 遍历所有外星人，将每个外星人下移设置值（当前值与 -1 的乘积）
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
+
+    def _update_aliens(self):
+        """
+        检查是否有外星人位于屏幕边缘，
+        并更新整群外星人位置
+        """
+        self._check_fleet_edges()
+        self.aliens.update()
 
     def _update_screen(self):
         """更新屏幕上的图像，并切换新屏幕"""
