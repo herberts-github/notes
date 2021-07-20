@@ -83,13 +83,13 @@ class AlienInvasion:
         # 隐藏鼠标光标
         pygame.mouse.set_visible(False)
 
+        # 重置游戏设置
+        self.settings.initialize_dynamic_settings()
+
     def _check_play_button(self, mouse_pos):
         """在玩家单击 Play 按钮时开始新游戏"""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:  # 判断是否单击 play 同时处于非活动状态下才重新开始
-            # 重置游戏设置
-            self.settings.initialize_dynamic_settings()
-
             self._start_game()
 
     def _check_keydown_events(self, event):
