@@ -136,6 +136,12 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True)
 
+        if not self.aliens:  # 整群外星人消灭后
+            # 删除现有子弹并创建一群新的外星人
+            self.bullets.empty()
+            self._create_fleet()
+            self.settings.increase_speed()
+
         if not self.aliens:  # 检查编组是否为空
             # 删除现有子弹并新建一群外星人
             self.bullets.empty()  # 删除编组余下的 spirit
