@@ -156,19 +156,22 @@ class AlienInvasion:
     def _ship_hit(self):
         """响应飞船被外星人撞到的响应"""
 
-        # 将 ships_left 减 1
-        self.stats.ships_left -= 1
+        if self.stats.ships_left > 0:  # 当 ships_left 为 0 时，将 game_active 设置 False
+            # 将 ships_left 减 1
+            self.stats.ships_left -= 1
 
-        # 清空余下外星人和子弹
-        self.aliens.empty()
-        self.bullets.empty()
+            # 清空余下外星人和子弹
+            self.aliens.empty()
+            self.bullets.empty()
 
-        # 创建新的外星人群，并将飞船放到屏幕底端中央
-        self._create_fleet()
-        self.ship.center_ship()
+            # 创建新的外星人群，并将飞船放到屏幕底端中央
+            self._create_fleet()
+            self.ship.center_ship()
 
-        # 暂停
-        sleep(0.5)
+            # 暂停
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
 
     def _update_aliens(self):
         """
