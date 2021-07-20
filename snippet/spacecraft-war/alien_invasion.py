@@ -38,7 +38,7 @@ class AlienInvasion:
         self._create_fleet()
 
         # 创建 Play 按钮
-        self.play_button = Button(self, 'Play')
+        self.play_button = Button(self, 'Play (p)')
 
     def run_game(self):
         """开始游戏的主循环"""
@@ -105,6 +105,25 @@ class AlienInvasion:
         elif event.key == pygame.K_p:
             if not self.stats.game_active:
                 self._start_game()
+        # 游戏停止情况下，按下对应按键调整难度
+        elif event.key == pygame.K_e:
+            if not self.stats.game_active:
+                self.settings.easy = True
+                self.settings.normal = False
+                self.settings.hard = False
+                print('容易', self.settings.easy)
+        elif event.key == pygame.K_n:
+            if not self.stats.game_active:
+                self.settings.easy = False
+                self.settings.normal = True
+                self.settings.hard = False
+                print('正常', self.settings.normal)
+        elif event.key == pygame.K_h:
+            if not self.stats.game_active:
+                self.settings.easy = False
+                self.settings.normal = False
+                self.settings.hard = True
+                print('困难', self.settings.hard)
 
     def _check_keyup_events(self, event):
         """响应松开"""
