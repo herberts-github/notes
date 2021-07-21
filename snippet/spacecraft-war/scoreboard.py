@@ -11,8 +11,6 @@ class Scoreboard:
         """初始化显示得分涉及的属性"""
         self.ai_game = ai_game
         self.screen = ai_game.screen
-
-        self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
         self.settings = ai_game.settings
         self.stats = ai_game.stats
@@ -20,7 +18,12 @@ class Scoreboard:
         # 显示得分信息时使用的字体设置
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 48)
-        # 准备包含最高分和当前得分的图像
+
+        self.prep_images()
+
+    def prep_images(self):
+        """渲染图像方法整合"""
+        # 准备包含最高分和当前得分的图像、等级、飞船
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
