@@ -169,20 +169,18 @@ class AlienInvasion:
             self.sb.prep_score()
             self.sb.check_high_score()
 
-        if not self.aliens:  # 整群外星人消灭后
+        if not self.aliens:  # 整群外星人消灭后 # 检查编组是否为空
             # 删除现有子弹并创建一群新的外星人
-            self.bullets.empty()
-            self._create_fleet()
-            self.settings.increase_speed()
-
-            # 提高等级
-            self.stats.level += 1
-            self.sb.prep_level()
-
-        if not self.aliens:  # 检查编组是否为空
-            # 删除现有子弹并新建一群外星人
             self.bullets.empty()  # 删除编组余下的 spirit
             self._create_fleet()  # 在屏幕上重新显示一群外星人
+            self.settings.increase_speed()
+
+            self.start_new_level()
+
+    def start_new_level(self):
+        # 提高等级
+        self.stats.level += 1
+        self.sb.prep_level()
 
     def _create_fleet(self):
         """创建外星人群"""
