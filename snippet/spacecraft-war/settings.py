@@ -42,6 +42,9 @@ class Settings:
         elif self.hard:
             self._hard_settings()
 
+        # 记分
+        self.alien_points = 50
+
     def _easy_settings(self):
         """容易难度设置"""
         self.ship_speed = 0.5
