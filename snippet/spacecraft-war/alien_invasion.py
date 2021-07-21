@@ -165,6 +165,7 @@ class AlienInvasion:
             for aliens in collisions.values():  # 遍历字典，确保将写灭的每个外星人计入得分
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
+            self.sb.check_high_score()
 
         if not self.aliens:  # 整群外星人消灭后
             # 删除现有子弹并创建一群新的外星人

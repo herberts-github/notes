@@ -9,6 +9,9 @@ class GameStats:
         # 让游戏开始时处于非活动状态
         self.game_active = False
 
+        # 任何情况下不应重置最高得分
+        self.high_score = 0
+
     def reset_stats(self):
         """初始化在游戏运行期间可能变化的统计信息"""
         self.ships_left = self.settings.ship_limit
