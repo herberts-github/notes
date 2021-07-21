@@ -19,7 +19,8 @@ class Scoreboard:
 
     def prep_score(self):
         """将得分转换为渲染的图像"""
-        score_str = str(self.stats.score)
+        rounded_score = round(self.stats.score, -1)  # round：让小数精确小数点后某一位，小数位数由第二实参指定
+        score_str = "{:,}".format(rounded_score)
         self.score_image = self.font.render(score_str, True,
                                             self.text_color, self.settings.bg_color)
 
