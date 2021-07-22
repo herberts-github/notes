@@ -21,11 +21,13 @@ repo_dict = repo_dicts[0]
 # for key in sorted(repo_dict.keys()):
 #     print(key)
 
-print("\n关于第一个存储库的选择信息：")
-print(f"昵称：{repo_dict['name']}")
-print(f"归属：{repo_dict['owner']['login']}")
-print(f"星星：{repo_dict['stargazers_count']}")
-print(f"仓库：{repo_dict['html_url']}")
-print(f"创建：{repo_dict['created_at']}")
-print(f"更新：{repo_dict['updated_at']}")
-print(f"描述：{repo_dict['description']}")
+# 概述受欢迎的仓库
+print('关于每个存储库的选定信息：')
+for repo_dict in repo_dicts:
+    print(f"\n昵称：{repo_dict['name']}")
+    print(f"归属：{repo_dict['owner']['login']}")
+    print(f"星星：{repo_dict['stargazers_count']}")
+    print(f"仓库：{repo_dict['html_url']}")
+    print(f"创建：{repo_dict['created_at']}")
+    print(f"更新：{repo_dict['updated_at']}")
+    print(f"描述：{repo_dict['description']}")
