@@ -8,5 +8,6 @@
 /httpRequests/
 # py文件夹
 .idea/
-
 __pycache__/
+# test文件夹
+html/
