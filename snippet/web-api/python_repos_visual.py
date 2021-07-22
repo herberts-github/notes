@@ -11,9 +11,14 @@ print(f"状态码：{r.status_code}")
 # 处理结果
 response_dict = r.json()
 repo_dicts = response_dict['items']
-repo_names, stars, labels = [], [], []  # 用于存储在图标中呈现的数据（项目名称、星数、项目描述）
+repo_links, stars, labels = [], [], []  # 用于存储在图标中呈现的数据（项目链接、星数、项目描述）
 for repo_dict in repo_dicts:
-    repo_names.append(repo_dict['name'])
+    # 循环提取响应名称和url将其转换标签存储列表
+    repo_name = repo_dict['name']
+    repo_url = repo_dict['html_url']
+    repo_link = f"<a href='{repo_url}'>{repo_name}</a>"
+    repo_links.append(repo_link)
+
     stars.append(repo_dict['stargazers_count'])
 
     owner = repo_dict['owner']['login']
@@ -24,7 +29,7 @@ for repo_dict in repo_dicts:
 # 可视化
 data = [{  # 指定图标类型，并提高 x 、 y/（项目名称、星数）
     'type': 'bar',
-    'x': repo_names,
+    'x': repo_links,
     'y': stars,
     'hovertext': labels,  # 条形鼠标停留显示提示
     'marker': {  # 条形设计，颜色和轮廓
