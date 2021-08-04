@@ -8,6 +8,7 @@
 /httpRequests/
 # py文件夹
 .idea/
+.vscode/
 __pycache__/
 # test文件夹
 html/
