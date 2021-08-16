@@ -103,7 +103,7 @@ HTTP/1.1 定义了 47 种首部字段
 | --- | --- |
 | Cache-Control | 控制缓存行为 |
 | Connection | 逐跳首部、连接管理 |
-| Date | 创建报文的日期时间 |
+| Date | 创建报文的日期时间，**消息被发送时的日期和时间（时间格式为 GMT）** |
 | Pragma | 报文指令 |
 | Trailer | 报文末端首部一览 |
 | Transfer-Encoding | 指定报文主体的传输编码方式 |
@@ -132,7 +132,7 @@ HTTP/1.1 定义了 47 种首部字段
 | Max-Forwards | 最大传输逐跳数 |
 | Proxy-Authorization | 代理服务器要求客户端的认证信息 |
 | Range | 实体的字节范围请求 |
-| Referer | 对请求中URI的原始获取方 |
+| Referer | 对请求中URI的原始获取方，**浏览器应该在多少时间之后刷新文档，单位为秒** |
 | TE | 传输编码的优先级 |
 | User-Agent | HTTP 客户端程序的信息 |
 
@@ -143,27 +143,30 @@ HTTP/1.1 定义了 47 种首部字段
 | Accept-Ranges | 是否接受字节范围请求 |
 | Age | 推算资源创建经过时间 |
 | ETag | 资源的匹配信息 |
-| Location | 令客户端重定向至指定URI |
+| Location | 令客户端重定向至指定URI，**进行重定向或在创建某个新资源时指定位置** |
 | Proxy-Authenticate | 代理服务器对客户端的认证信息 |
 | Retry-After | 对再次发起请求的时机要求 |
-| Server | HTTP服务器安装信息 |
+| Server | HTTP服务器安装信息，**服务器名称及版本** |
 | Vary | 代理服务器缓存的管理信息 |
 | WWW-Authenticate | 服务器对客户端的认证信息 |
 
 - 实体首部字段
 
+通信双方支持对响应头域的扩展，如果存在不支持的响应头域，一般作为实体头域处理
+
 | 首部字段名 | 说明 |
 | --- | --- |
-| Allow | 资源可支持的HTTP方法 |
-| Content-Encoding | 实体主体适用的编码方式 |
+| Status | 本次请求的状态码 |
+| Allow | 资源可支持的HTTP方法，**服务器支持的请求方法（GET、POST 等）** |
+| Content-Encoding | 实体主体适用的编码方式，**文档编码方法，只有在解码之后，才可得到 `Content-Type` 头指定的内容类型** |
 | Content-Language | 实体主体的自然语言 |
-| Content-Length | 实体主体的大小（单位：字节） |
+| Content-Length | 实体主体的大小（单位：字节），**内容长度，只有当浏览器使用持久 HTTP 连接时才需要此数据** |
 | Content-Location | 替代对应资源的URI |
 | Content-MD5 | 实体主体的报文摘要 |
 | Content-Range | 实体主体的位置范围 |
-| Content-Type | 实体主体的媒体类型 |
-| Expires | 实体主体过期的日期时间 |
-| Last-Modified | 资源的最后修改日期时间 |
+| Content-Type | 实体主体的媒体类型，**文档 MIME 类型，默认为 `text/plain`，但通常需要显式指定为 `text/html`** |
+| Expires | 实体主体过期的日期时间，**指定日期/时间，超过该时间则认为此回应已经过期** |
+| Last-Modified | 资源的最后修改日期时间，**所请求的对象的最后修改日期** |
 
 ### 非 HTTP/1.1 首部字段
 
